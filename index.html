@@ -6,10 +6,35 @@
   <title>Document</title>
 </head>
 <body>
-  
+  <button class="rock">rock</button>
+  <button class="paper">paper</button>
+  <button class="scissor">scissor</button>
+  <div>
+    <p class="current-score"></p>
+    <p class="final-score"></p>
+    <p class="final-result"></p>
+  </div>
 
   <script>
 
+    const rockButton = document.querySelector('.rock');
+    const paperButton = document.querySelector('.paper');
+    const scissorButton = document.querySelector('.scissor');
+    const currentScore = document.querySelector('.current-score');
+    const finalScore = document.querySelector('.final-score');
+    const finalResult = document.querySelector('.final-result');
+     let playerScore = 0;
+      let computerScore = 0;
+
+     function reset() {
+       window.location.reload()
+      }
+
+      function disbaleButtons(){
+        rockButton.disabled = true;
+        paperButton.disabled = true;
+        scissorButton.disabled = true;
+      }
     function getComputerChoice(){
       let computerChoice = '';
       let randomNumber = Math.floor(Math.random() * 3 + 1);
@@ -27,20 +52,23 @@
 
   //  let playerSelection = prompt('enter your choice?').toLowerCase();
     let computerSelection = getComputerChoice();
-    //console.log(`computermove ${computerSelection}`);
+    console.log(`computermove ${computerSelection}`);
+
+
 
     function playRound(playerSelection, computerSelection){
       let result = " ";
+      
      // console.log(playerSelection, computerSelection);
       //When player chooses 'scissors'
       if(playerSelection === 'scissor'){
         if(playerSelection === 'scissor' && computerSelection === 'rock'){
           console.log(`your choice: ${playerSelection}, Computer choice: ${computerSelection}`);
-          result = "Rock beats Scissor, You Lose !!";
+          result = "Rock beats Scissor, You lose !!";
          // console.log(result);
         }else if (playerSelection === 'scissor' && computerSelection === 'paper') {
           console.log(`your choice: ${playerSelection}, Computer choice: ${computerSelection}`);
-          result = "scissors beats paper, You Win !!";
+          result = "scissors beats paper, You win !!";
          // console.log(result);
         } else if (playerSelection === 'scissor' && computerSelection === 'scissor') {
           console.log(`your choice: ${playerSelection}, Computer choice: ${computerSelection}`);
@@ -59,13 +87,13 @@
         //  console.log(result);
         }else if(playerSelection === 'rock' && computerSelection === 'scissor') {
           console.log(`your choice: ${playerSelection}, Computer choice: ${computerSelection}`);
-        result = "Rock beats Scissor, you win !!";
+        result = "Rock beats scissor, you win !!";
          // console.log(result);
         }
       //when player chooses 'paper'
     }else if(playerSelection === 'paper') {
         if(playerSelection === 'paper' && computerSelection === 'rock') {
-          //console.log(`your choice: ${playerSelection}, Computer choice: ${computerSelection}`);
+          console.log(`your choice: ${playerSelection}, Computer choice: ${computerSelection}`);
         result = "paper beats rock, you win !!";
           console.log(result);
         }else if(playerSelection === 'paper' && computerSelection === 'paper') {
@@ -78,42 +106,44 @@
           //console.log(result);
         }
       }
+      
+      if (result.includes("win")) {
+        playerScore += 1;
+      } else if (result.includes("lose")) {
+        computerScore += 1 ;
+      }
+      currentScore.textContent = `you picked:- ${playerSelection}, player picked:- ${computerSelection}\n${result} player score: ${playerScore} computer score: ${computerScore}`;
+
+         if (playerScore === 5) {
+          currentScore.textContent = '';
+        finalScore.textContent = `final score: player score: ${playerScore} computer score: ${computerScore}`;
+        finalResult.textContent = "You won congratulations!!";
+          disbaleButtons();
+        setTimeout(reset, 5000);
+      } else if (computerScore === 5) {
+        currentScore.textContent = '';
+        finalScore.textContent = `final score: player score: ${playerScore} computer score: ${computerScore}`;
+        finalResult.textContent = "Better luck next time, computer won!!";
+          disbaleButtons();
+      setTimeout(reset, 5000);
+      }
+      
       return result;
     }
    // console.log(playRound(playerSelection,computerSelection));
-
-    function game(){  
-      let playerChoice = 'rock';
-      let playerScore = 0;
-      let computerScore = 0;
-      let result = '';
-      for(i = 1; i <= 5; i++){
-      let computerChoice = getComputerChoice();
-      result = playRound(playerChoice, computerChoice);
-      console.log(result);
-      //update score
-      if(result.includes("you win")){
-        playerScore++;
-      }else if(result.includes("you lose")){
-        computerScore++;
-      }
-      //eachround result
-      console.log(`Round ${i} player score: ${playerScore} computer score: ${computerScore}`);
-      }
-      //final result
-      if(playerScore > computerScore){
-        console.log(`final score: player score: ${playerScore} computer score: ${computerScore}`);
-        console.log("You won congratulations!!");
-      }else if(playerScore < computerScore){
-        console.log(`final score: player score: ${playerScore} computer score: ${computerScore}`);
-        console.log("Better luck next time, computer won!!");
-      }else{
-        console.log(`final score: player score: ${playerScore} computer score: ${computerScore}`);
-        console.log("its a tie play again");
-      }
-    }
-    console.log(game());
-    
+   
+   
+   rockButton.addEventListener('click',() => {
+     playRound('rock',getComputerChoice());
+   });
+  paperButton.addEventListener('click',() => {
+     playRound('paper',getComputerChoice());
+   });
+   scissorButton.addEventListener('click',() => {
+     playRound('scissor',getComputerChoice());
+   });
+   
+   
   </script>
 </body>
 </html>
